@@ -27,7 +27,7 @@ wn.send_img("./test.png")
 ```python
 from ANotify import Nanpush
 TOKEN = ""
-anpush = ANotify.AnpushNotify(TOKEN)
+anpush = Nanpush.AnpushNotify(TOKEN)
 anpush.send_msg("title", "content", "channel_id")
 ```
 
@@ -43,8 +43,16 @@ iyuu.send_msg("title", "content")
 ```python
 from ANotify import NPushPlus
 TOKEN = ''
-pushplus = NPushPlus.PushPlusNotify(TOKEN)
-pushplus.send_msg("测试标题", "测试正文", TemplateType.txt)
+pushplus = Npushplus.PushPlusNotify(TOKEN)
+pushplus = Npushplus.PushPlusNotify(TOKEN)
+pushplus.send_msg("测试标题", "测试正文", Npushplus.TemplateType.txt)
+msg_json = {
+    "status": 200,
+    "msg": "success"
+}
+pushplus.send_msg("测试标题", msg_json, Npushplus.TemplateType.json)
+pushplus.send_msg("测试标题", "**测试内容**\n- test1\n- [ANotify](https://github.com/TommyMerlin/ANotify)", Npushplus.TemplateType.markdown)
+pushplus.send_msg("测试标题", "测试内容<a href='https://github.com/TommyMerlin/ANotify'>ANotify</a>", Npushplus.TemplateType.html)
 ```
 
 - Server酱
