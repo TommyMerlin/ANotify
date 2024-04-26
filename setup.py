@@ -12,7 +12,7 @@ setup(
     description='Send notifications by multiple channels.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/yourusername/your_library_name',
+    url='https://github.com/TommyMerlin/ANotify',
     license='MIT',
     classifiers=[
         'Programming Language :: Python :: 3',
