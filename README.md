@@ -6,7 +6,7 @@ pip install anotify
 ```
 
 ## 实例
-- 企业微信
+### 企业微信
 ```python
 from ANotify import Nwecom
 # 企业ID
@@ -23,7 +23,7 @@ wn.send_file("./test.txt")
 wn.send_img("./test.png")
 ```
 
-- AnPush
+### AnPush
 ```python
 from ANotify import Nanpush
 TOKEN = ""
@@ -31,7 +31,7 @@ anpush = Nanpush.AnpushNotify(TOKEN)
 anpush.send_msg("title", "content", "channel_id")
 ```
 
-- IYUU
+### IYUU
 ```python
 from ANotify import Niyuu
 TOKEN = ""
@@ -39,7 +39,7 @@ iyuu = Niyuu.IyuuNotify(TOKEN)
 iyuu.send_msg("title", "content")
 ```
 
-- PushPlus
+### PushPlus
 ```python
 from ANotify import NPushPlus
 TOKEN = ''
@@ -55,7 +55,7 @@ pushplus.send_msg("测试标题", "**测试内容**\n- test1\n- [ANotify](https:
 pushplus.send_msg("测试标题", "测试内容<a href='https://github.com/TommyMerlin/ANotify'>ANotify</a>", Npushplus.TemplateType.html)
 ```
 
-- Server酱
+### Server酱
 ```python
 from ANotify import Nserverchan
 TOKEN = ''
@@ -63,7 +63,7 @@ serverchan = Nserverchan.ServerChanNotify(TOKEN)
 serverchan.send_msg("测试标题", "测试正文")
 ```
 
-- Email
+### Email
 ```python
 from ANotify import Nemail
 # 邮箱服务器地址
