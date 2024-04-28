@@ -19,9 +19,7 @@ class ServerChanNotify:
             "desp": msg_text,
         }
 
-        request_url = f"{self.base_url}?title={msg_title}&desp={msg_text}"
-
-        response = requests.get(request_url)
+        response = requests.post(self.base_url, data=data)
         response.raise_for_status()
         return response.json()
 
