@@ -13,7 +13,6 @@ class ServerChanNotify:
         :msg_text:  正文
         :return:    发送是否成功
         """
-
         data = {
             "text": msg_title,
             "desp": msg_text,
