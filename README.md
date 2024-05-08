@@ -68,6 +68,26 @@ serverchan = Nserverchan.ServerChanNotify(TOKEN)
 serverchan.send_msg("测试标题", "测试正文")
 ```
 
+### Telegram Bot
+[官网](https://core.telegram.org/bots)
+```python
+from ANotify import Ntelegram
+TOKEN = ''
+CHAT_ID = ''
+# 可选项
+proxy = {
+        "http": "http://127.0.0.1:1234",
+        "https": "http://127.0.0.1:1234"
+}
+telegram = Ntelegram.TelegramNotify(TOKEN, CHAT_ID)
+
+# https://core.telegram.org/bots/api#formatting-options
+telegram.send_msg("test message", Ntelegram.ParseMode.TEXT)   # 无代理
+telegram.send_msg("test message", Ntelegram.ParseMode.TEXT, proxy=proxy)
+telegram.send_msg("[link](https://www.example.com)", Ntelegram.ParseMode.Markdown, proxy=proxy)
+telegram.send_msg("<a href='https://www.example.com'>link</a>", Ntelegram.ParseMode.HTML, proxy=proxy)
+```
+
 ### Email
 ```python
 from ANotify import Nemail
