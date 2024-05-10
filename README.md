@@ -7,7 +7,8 @@ pip install anotify
 
 ## 实例
 ### 企业微信
-[官网](https://work.weixin.qq.com/)
+[官网](https://work.weixin.qq.com/)  
+[群聊机器人Webhook](https://open.work.weixin.qq.com/help2/pc/14931)
 ```python
 from ANotify import Nwecom
 # 企业ID
@@ -60,7 +61,17 @@ feishu.send_file(Nfeishu.ReceiverType.OPEN_ID, OPEN_ID, "test.txt")
 # Webhook
 feishu_webhook = Nfeishu.FeishuWebhookNotify("https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxx")
 feishu_webhook.send_msg("Hello World!")
+```
 
+### 飞书
+[官网](https://open.feishu.cn/document/server-docs/im-v1/introduction)  
+[Webhook请求发送消息](https://open.dingtalk.com/document/robots/custom-robot-access)
+```python
+from ANotify import Ndingtalk
+
+WEB_HOOK = "https://oapi.dingtalk.com/robot/send?access_token=xxxxxx"
+dingtalk_webhook = Ndingtalk.DingtalkWebhookNotify(WEB_HOOK)
+dingtalk_webhook.send_msg("Hello World!")
 ```
 
 ### AnPush
