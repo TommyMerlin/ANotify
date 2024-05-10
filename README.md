@@ -63,8 +63,7 @@ feishu_webhook = Nfeishu.FeishuWebhookNotify("https://open.feishu.cn/open-apis/b
 feishu_webhook.send_msg("Hello World!")
 ```
 
-### 飞书
-[官网](https://open.feishu.cn/document/server-docs/im-v1/introduction)  
+### 钉钉 
 [Webhook请求发送消息](https://open.dingtalk.com/document/robots/custom-robot-access)
 ```python
 from ANotify import Ndingtalk
