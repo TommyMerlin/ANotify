@@ -1,6 +1,8 @@
 import requests
 from enum import Enum
 import json
+import base64
+import hashlib
 
 
 class MediaType(Enum):
@@ -166,6 +168,78 @@ class WxNotify:
         resp.raise_for_status()
         return resp.json()
 
+class WxWebhookNotify:
+    def __init__(self, webhook_url):
+        self.webhook_url = webhook_url
+
+    def send_msg(self, msg):
+        url = self.webhook_url
+        playload = {
+            "msgtype": "text",
+            "text": {
+                "content": msg,
+                # "mentioned_list":["@all"],
+                # "mentioned_mobile_list":["@all"]
+            }
+        }
+
+        res = requests.post(url, data=json.dumps(playload))
+        return res.json()
+
+    def send_msg_markdown(self, msg):
+        url = self.webhook_url
+        playload = {
+            "msgtype": "markdown",
+            "markdown": {
+                "content": msg,
+                # "mentioned_list":["@all"],
+                # "mentioned_mobile_list":["@all"]
+            }
+        }
+
+        res = requests.post(url, data=json.dumps(playload))
+        return res.json()
+
+    def send_img(self, img_path):
+        url = self.webhook_url
+        img_base64, img_md5 = self.get_img_info(img_path)
+        playload = {
+            "msgtype": "image",
+            "image": {
+                "base64": img_base64,
+                "md5": img_md5
+            }
+        }
+
+        res = requests.post(url, data=json.dumps(playload))
+        return res.json()
+    def send_file(self, file_path):
+        url = self.webhook_url
+        playload = {
+            "msgtype": "file",
+            "file": {
+                "media_id": self.upload_media(file_path)
+            }
+        }
+
+        res = requests.post(url, data=json.dumps(playload))
+        return res.json()
+
+    def upload_media(self, file_path):
+        key = self.webhook_url.split("key=")[1]
+        url = f"https://qyapi.weixin.qq.com/cgi-bin/webhook/upload_media?key={key}&type=file"
+
+        files = {'file': open(file_path, 'rb')}
+        result = requests.post(url, files=files)
+        response = json.loads(result.text)
+        return response['media_id']
+
+    def get_img_info(self, img_path):
+        with open(img_path, 'rb') as f:
+            img = f.read()
+            md5 = hashlib.md5(img).hexdigest()
+            img_base64 = base64.b64encode(img).decode('utf-8')
+        return img_base64, md5
 
 if __name__ == "__main__":
     # 企业ID
@@ -175,5 +249,11 @@ if __name__ == "__main__":
     # 应用ID
     AgentId = ''
 
-    wn = WxNotify(corpid=CORPID, corpsecret=CORPSECRET, agentid=AgentId)
-    print(wn.send_msg("test message"))
+    # wn = WxNotify(corpid=CORPID, corpsecret=CORPSECRET, agentid=AgentId)
+    # print(wn.send_msg("test message"))
+
+    wn_webhook = WxWebhookNotify("")
+    # wn_webhook.send_file("E:/Desktop/gpt/Cursor_Demo/test.png")
+    # wn_webhook.send_msg("Hello")
+    # print(wn_webhook.send_msg_markdown("**Hello**\n- test1\n- [ANotify](https://www.baidu.com)"))
+    # wn_webhook.send_img("E:/Desktop/gpt/Cursor_Demo/test.png")

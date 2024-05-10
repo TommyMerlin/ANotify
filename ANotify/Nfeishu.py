@@ -162,7 +162,7 @@ if __name__ == "__main__":
     CHAT_ID = ''
 
     feishu = FeishuNotify(appid=APPID, appsecret=APPSECRET)
-    # print(feishu.send_file(ReceiverType.OPEN_ID, OPEN_ID, "E:/Desktop/gpt/Cursor_Demo/test.png"))
+    # print(feishu.send_file(ReceiverType.OPEN_ID, OPEN_ID, "test.png"))
     # print(feishu.send_msg(ReceiverType.OPEN_ID, OPEN_ID, "Hello World!"))
     # print(feishu.send_msg(ReceiverType.UINION_ID, UNION_ID, "Hello World!"))
     # print(feishu.send_msg(ReceiverType.USER_ID, USER_ID, "Hello World!"))

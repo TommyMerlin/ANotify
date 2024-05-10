@@ -22,6 +22,14 @@ wn.send_msg("test message")
 wn.send_text_card("test title", "test content", "https://www.example.com")
 wn.send_file("./test.txt")
 wn.send_img("./test.png")
+
+# Webhook
+WEB_HOOK = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxxxxx"
+wn_webhook = Nwecom.WxWebhookNotify(WEB_HOOK)
+wn_webhook.send_msg("Hello")
+wn_webhook.send_msg_markdown("**Hello**\n- test1\n- [ANotify](https://github.com/TommyMerlin/ANotify)")
+wn_webhook.send_img("E:/Desktop/gpt/Cursor_Demo/test.png")
+wn_webhook.send_file("test.png")
 ```
 
 ### 飞书
