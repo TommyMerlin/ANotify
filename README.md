@@ -44,6 +44,10 @@ feishu.send_msg(Nfeishu.ReceiverType.OPEN_ID, OPEN_ID, "Hello World!")
 feishu.send_msg(Nfeishu.ReceiverType.UINION_ID, UNION_ID, "Hello World!")
 feishu.send_msg(Nfeishu.ReceiverType.USER_ID, USER_ID, "Hello World!")
 feishu.send_msg(Nfeishu.ReceiverType.CHAT_ID, CHAT_ID, "Hello World!")
+# 发送图片
+feishu.send_img(Nfeishu.ReceiverType.OPEN_ID, OPEN_ID, "test.png")
+# 发送文件
+feishu.send_file(Nfeishu.ReceiverType.OPEN_ID, OPEN_ID, "test.txt")
 
 # Webhook
 feishu_webhook = Nfeishu.FeishuWebhookNotify("https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxx")

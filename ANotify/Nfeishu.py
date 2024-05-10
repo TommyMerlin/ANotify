@@ -1,7 +1,7 @@
+import os
 import requests
 from enum import Enum
 import json
-
 
 class ReceiverType(Enum):
     OPEN_ID = 'open_id'
@@ -53,6 +53,87 @@ class FeishuNotify:
         res = requests.post(url, params=params, headers=headers, json=body)
         return res.json()
 
+    def send_img(self, receive_id_type: ReceiverType ,receive_id, img_path):
+        url = 'https://open.feishu.cn/open-apis/im/v1/messages'
+
+        headers = {
+            'Authorization': 'Bearer ' + self.access_token
+        }
+
+        params = {
+            "receive_id_type": receive_id_type.value
+        }
+
+        body = {
+            "receive_id": receive_id,
+            "msg_type": "image",
+            "content": json.dumps({
+                "image_key": self.upload_image(img_path)
+            })
+        }
+
+        res = requests.post(url, params=params, headers=headers, json=body)
+        return res.json()
+
+    def send_file(self, receive_id_type: ReceiverType ,receive_id, file_path):
+        url = 'https://open.feishu.cn/open-apis/im/v1/messages'
+
+        headers = {
+            'Authorization': 'Bearer ' + self.access_token
+        }
+
+        params = {
+            "receive_id_type": receive_id_type.value
+        }
+
+        body = {
+            "receive_id": receive_id,
+            "msg_type": "file",
+            "content": json.dumps({
+                "file_key": self.upload_file(file_path)
+            })
+        }
+
+        res = requests.post(url, params=params, headers=headers, json=body)
+        return res.json()
+
+    def upload_image(self, file_path):
+        url = "https://open.feishu.cn/open-apis/im/v1/images"
+
+        file_name = os.path.basename(file_path)
+
+        payload = {'image_type': 'message'}
+        files = [
+            ('image', (file_name, open(file_path, 'rb'), 'application/json'))
+        ]
+        headers = {
+            'Authorization': 'Bearer ' + self.access_token
+        }
+
+        response = requests.request("POST", url, headers=headers, data=payload, files=files).json()
+        if response['msg'] == 'success':
+            return response['data']['image_key']
+
+    def upload_file(self, file_path):
+        url = "https://open.feishu.cn/open-apis/im/v1/files"
+        file_name = os.path.basename(file_path)
+
+        payload = {
+            'file_type': 'stream',
+            'file_name': file_name
+        }
+
+        files = [
+            ('file', (file_name, open(file_path, 'rb'), 'application/json'))
+        ]
+
+        headers = {
+            'Authorization': 'Bearer ' + self.access_token
+        }
+
+        response = requests.request("POST", url, headers=headers, data=payload, files=files).json()
+        if response['msg'] == 'success':
+            return response['data']['file_key']
 
 class FeishuWebhookNotify:
     def __init__(self, webhook_url):
@@ -81,10 +162,11 @@ if __name__ == "__main__":
     CHAT_ID = ''
 
     feishu = FeishuNotify(appid=APPID, appsecret=APPSECRET)
+    # print(feishu.send_file(ReceiverType.OPEN_ID, OPEN_ID, "E:/Desktop/gpt/Cursor_Demo/test.png"))
     # print(feishu.send_msg(ReceiverType.OPEN_ID, OPEN_ID, "Hello World!"))
     # print(feishu.send_msg(ReceiverType.UINION_ID, UNION_ID, "Hello World!"))
     # print(feishu.send_msg(ReceiverType.USER_ID, USER_ID, "Hello World!"))
     # print(feishu.send_msg(ReceiverType.CHAT_ID, CHAT_ID, "Hello World!"))
 
-    feishu_webhook = FeishuWebhookNotify(webhook_url="https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxxxxx")
-    feishu_webhook.send_msg("Hello World!")
+    # feishu_webhook = FeishuWebhookNotify(webhook_url="https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxxxxx")
+    # feishu_webhook.send_msg("Hello World!")
