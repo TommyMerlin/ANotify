@@ -24,6 +24,33 @@ wn.send_file("./test.txt")
 wn.send_img("./test.png")
 ```
 
+### 飞书
+[官网](https://open.feishu.cn/document/server-docs/im-v1/introduction)  
+[创建应用](https://open.feishu.cn/document/home/introduction-to-custom-app-development/self-built-application-development-process)  
+[API调试台](https://open.feishu.cn/api-explorer?from=op_doc_tab)  
+[获取消息发送对象 openid](https://open.feishu.cn/document/faq/trouble-shooting/how-to-obtain-openid)  
+[Webhook请求发送消息](https://open.feishu.cn/document/client-docs/bot-v3/add-custom-bot#355ec8c0)
+```python
+from ANotify import Nfeishu
+APPID = ''
+APPSECRET = ''
+OPEN_ID = ''
+UNION_ID = ''
+USER_ID = ''
+CHAT_ID = ''
+
+feishu = Nfeishu.FeishuNotify(appid=APPID, appsecret=APPSECRET)
+feishu.send_msg(Nfeishu.ReceiverType.OPEN_ID, OPEN_ID, "Hello World!")
+feishu.send_msg(Nfeishu.ReceiverType.UINION_ID, UNION_ID, "Hello World!")
+feishu.send_msg(Nfeishu.ReceiverType.USER_ID, USER_ID, "Hello World!")
+feishu.send_msg(Nfeishu.ReceiverType.CHAT_ID, CHAT_ID, "Hello World!")
+
+# Webhook
+feishu_webhook = Nfeishu.FeishuWebhookNotify("https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxx")
+feishu_webhook.send_msg("Hello World!")
+
+```
+
 ### AnPush
 [官网](https://anpush.com/)
 ```python
@@ -103,8 +130,5 @@ MAIL_PASS = ''
 SENDER = ''
 
 email_notify = Nemail.EmailNotify(MAIL_HOST, MAIL_USER, MAIL_PASS, SENDER)
-if email_notify.send_email("测试标题", "测试正文", attachment_filename=None, receiver='123@example.com'):
-    print("邮件发送成功√")
-else:
-    print("邮件发送失败×")
+email_notify.send_email("测试标题", "测试正文", attachment_filename=None, receiver='123@example.com')
 ```
