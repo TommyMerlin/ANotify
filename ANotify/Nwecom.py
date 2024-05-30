@@ -64,6 +64,25 @@ class WxNotify:
         resp.raise_for_status()
         return resp.json()
 
+    # 发送 Markdown 消息
+    def send_msg_mardown(self, text):
+        url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' + self.access_token
+        payload = {
+            "touser": "@all",
+            "msgtype": "markdown",
+            "agentid": self.agentid,
+            "text": {
+                "content": text
+            },
+            "safe": 0,
+            "enable_id_trans": 0,
+            "enable_duplicate_check": 0,
+            "duplicate_check_interval": 1800
+        }
+        resp = requests.post(url, data=json.dumps(payload))
+        resp.raise_for_status()
+        return resp.json()
+
     # 发送图片消息
     def send_img(self, img_path):
         url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' + self.access_token
