@@ -71,7 +71,7 @@ class WxNotify:
             "touser": "@all",
             "msgtype": "markdown",
             "agentid": self.agentid,
-            "text": {
+            "markdown": {
                 "content": text
             },
             "safe": 0,
@@ -268,8 +268,9 @@ if __name__ == "__main__":
     # 应用ID
     AgentId = ''
 
-    # wn = WxNotify(corpid=CORPID, corpsecret=CORPSECRET, agentid=AgentId)
+    wn = WxNotify(corpid=CORPID, corpsecret=CORPSECRET, agentid=AgentId)
     # print(wn.send_msg("test message"))
+    # wn.send_msg_markdown("**Hello**\n- test1\n- [ANotify]")
 
     wn_webhook = WxWebhookNotify("")
     # wn_webhook.send_file("E:/Desktop/gpt/Cursor_Demo/test.png")
