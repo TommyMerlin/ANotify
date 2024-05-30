@@ -20,6 +20,7 @@ AgentId = ''
 
 wn = Nwecom.WxNotify(corpid=CORPID, corpsecret=CORPSECRET, agentid=AgentId)
 wn.send_msg("test message")
+wn.send_msg_markdown("**Hello**\n- test1\n- [ANotify](https://github.com/TommyMerlin/ANotify)")
 wn.send_text_card("test title", "test content", "https://www.example.com")
 wn.send_file("./test.txt")
 wn.send_img("./test.png")
