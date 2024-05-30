@@ -64,8 +64,8 @@ class WxNotify:
         resp.raise_for_status()
         return resp.json()
 
-    # 发送 Markdown 消息
-    def send_msg_mardown(self, text):
+    # 发送 Markdown 文本消息
+    def send_msg_markdown(self, text):
         url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' + self.access_token
         payload = {
             "touser": "@all",
