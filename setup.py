@@ -9,7 +9,7 @@ setup(
     ],
     author='7ommy',
     author_email='tommymerlin0920@gmail.com',
-    description='Send notifications by multiple channels.',
+    description='Send notifications by multiple channels',
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/TommyMerlin/ANotify',
