@@ -83,6 +83,15 @@ anpush = Nanpush.AnpushNotify(TOKEN)
 anpush.send_msg("title", "content", "channel_id")
 ```
 
+### 息知
+[官网](https://xz.qqoq.net/)
+```python
+from ANotify import Nxizhi
+TOKEN = ""
+xizhi = Nxizhi.XizhiNotify(TOKEN)
+xizhi.send_msg("title", "content")
+```
+
 ### IYUU
 [官网](https://iyuu.cn/)
 ```python
