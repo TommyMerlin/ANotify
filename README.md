@@ -92,6 +92,15 @@ xizhi = Nxizhi.XizhiNotify(TOKEN)
 xizhi.send_msg("title", "content")
 ```
 
+### 传息
+[官网](https://cx.super4.cn/)
+```python
+from ANotify import Nchuanxi
+TOKEN = ""
+chuanxi = Nchuanxi.ChuanxiNotify(TOKEN)
+chuanxi.send_msg("title", "content")
+```
+
 ### IYUU
 [官网](https://iyuu.cn/)
 ```python
