@@ -1,4 +1,5 @@
 ![Alt](https://repobeats.axiom.co/api/embed/e1ca45165d69b8370c78d60260a6474b49621fac.svg "Repobeats analytics image")
+[![Upload Python Package](https://github.com/TommyMerlin/ANotify/actions/workflows/python-publish.yml/badge.svg)](https://github.com/TommyMerlin/ANotify/actions/workflows/python-publish.yml)
 
 ## 安装
 ```console
