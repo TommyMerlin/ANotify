@@ -15,6 +15,6 @@ class ChuanxiNotify:
 
 
 if __name__ == "__main__":
-    TOKEN = "c4cbe1be605a5aed270cc610f1206826-eMBhrGFH"
+    TOKEN = ""
     chuanxi = ChuanxiNotify(TOKEN)
     print(chuanxi.send_msg("title", "content"))

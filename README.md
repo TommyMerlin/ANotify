@@ -102,6 +102,15 @@ chuanxi = Nchuanxi.ChuanxiNotify(TOKEN)
 chuanxi.send_msg("title", "content")
 ```
 
+### WPush
+[官网](https://wpush.cn/apikey)
+```python
+from ANotify import Nwpush
+TOKEN = ""
+wpush = Nwpush.WpushNotify(TOKEN)
+wpush.send_msg("title", "content")
+```
+
 ### IYUU
 [官网](https://iyuu.cn/)
 ```python
