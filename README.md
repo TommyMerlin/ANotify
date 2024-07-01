@@ -103,7 +103,7 @@ chuanxi.send_msg("title", "content")
 ```
 
 ### WPush
-[官网](https://wpush.cn/apikey)
+[官网](https://wpush.cn)
 ```python
 from ANotify import Nwpush
 TOKEN = ""
