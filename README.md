@@ -6,6 +6,9 @@
 pip install anotify
 ```
 
+## 导入
+[](https://github.com/TommyMerlin/ANotify/img/import.png)
+
 ## 实例
 ### 企业微信
 [官网](https://work.weixin.qq.com/)  
