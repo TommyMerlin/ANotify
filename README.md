@@ -84,6 +84,7 @@ SERVER_URL = ""
 gotify = Ngotify.GotifyNotify(TOKEN)
 gotify.send_msg("title", "content")
 gotify.send_msg("title", "**content**\n- No.1\n- No.2", Ngotify.MessageType.markdown)
+```
 
 ### AnPush
 [官网](https://anpush.com/)
