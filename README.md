@@ -170,6 +170,15 @@ serverchan = Nserverchan.ServerChanNotify(TOKEN)
 serverchan.send_msg("测试标题", "测试正文")
 ```
 
+### Reminder
+[官网](https://joyslinktech.com/product/reminder/manual)
+```python
+from ANotify import Nreminder
+PUSH_KEY = ""
+reminder = Nreminder.ReminderNotify(PUSH_KEY)
+reminder.send_msg("title", "content")
+```
+
 ### Telegram Bot
 [官网](https://core.telegram.org/bots)
 ```python
