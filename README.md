@@ -7,7 +7,7 @@ pip install anotify
 ```
 
 ## 导入
-[](https://github.com/TommyMerlin/ANotify/img/import.png)
+![](https://raw.githubusercontent.com/TommyMerlin/ANotify/7324e887da35272cb01f7df34fe7923e6879e0e2/img/import.png)
 
 ## 实例
 ### 企业微信
