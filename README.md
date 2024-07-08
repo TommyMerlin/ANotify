@@ -75,6 +75,16 @@ dingtalk_webhook = Ndingtalk.DingtalkWebhookNotify(WEB_HOOK)
 dingtalk_webhook.send_msg("Hello World!")
 ```
 
+### Gotify
+[官网](https://gotify.net/docs/)
+```python
+from ANotify import Ngotify
+TOKEN = ""
+SERVER_URL = ""
+gotify = Ngotify.GotifyNotify(TOKEN)
+gotify.send_msg("title", "content")
+gotify.send_msg("title", "**content**\n- No.1\n- No.2", Ngotify.MessageType.markdown)
+
 ### AnPush
 [官网](https://anpush.com/)
 ```python
