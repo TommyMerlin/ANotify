@@ -86,6 +86,16 @@ gotify.send_msg("title", "content")
 gotify.send_msg("title", "**content**\n- No.1\n- No.2", Ngotify.MessageType.markdown)
 ```
 
+### Ntfy
+[官网](https://docs.ntfy.sh/publish/)
+```python
+from ANotify import Nntfy
+TOPIC = ""
+URL = ""
+ntfy = Nntfy.NtfyNotify(TOPIC, URL)
+ntfy.send_msg("title", "content")
+```
+
 ### AnPush
 [官网](https://anpush.com/)
 ```python
