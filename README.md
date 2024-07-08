@@ -81,7 +81,7 @@ dingtalk_webhook.send_msg("Hello World!")
 from ANotify import Ngotify
 TOKEN = ""
 SERVER_URL = ""
-gotify = Ngotify.GotifyNotify(TOKEN)
+gotify = Ngotify.GotifyNotify(SERVER_URL, TOKEN)
 gotify.send_msg("title", "content")
 gotify.send_msg("title", "**content**\n- No.1\n- No.2", Ngotify.MessageType.markdown)
 ```
