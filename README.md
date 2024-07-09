@@ -216,3 +216,5 @@ SENDER = ''
 email_notify = Nemail.EmailNotify(MAIL_HOST, MAIL_USER, MAIL_PASS, SENDER)
 email_notify.send_email("测试标题", "测试正文", attachment_filename=None, receiver='123@example.com')
 ```
+
+[![Star History Chart](https://api.star-history.com/svg?repos=TommyMerlin/ANotify&type=Date)](https://star-history.com/#TommyMerlin/ANotify&Date)
