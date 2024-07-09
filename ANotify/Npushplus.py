@@ -1,6 +1,8 @@
 import requests
 from enum import Enum
 import json
+import httpx
+import asyncio
 
 class TemplateType(Enum):
     html = 'html'                   # 默认模板，支持html文本
@@ -17,14 +19,12 @@ class PushPlusNotify:
         self.token = token
         self.base_url = 'http://www.pushplus.plus/send'
 
-    # https://www.pushplus.plus/doc/guide/api.html#%E4%B8%80%E3%80%81%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E6%8E%A5%E5%8F%A3
-    def send_msg(self, msg_title, msg_text, template_type=TemplateType.html):
-        """发送消息
+    async def send_msg_async(self, msg_title, msg_text, template_type=TemplateType.txt):
+        """异步发送消息
         :msg_title: 主题
         :msg_text:  正文
-        :return:    发送是否成功
+        :return:    发送结果
         """
-
         data = {
             "token": self.token,
             "title": msg_title,
@@ -32,12 +32,28 @@ class PushPlusNotify:
             "template": template_type.value,
             "channel": "wechat"
         }
+        async with httpx.AsyncClient() as client:
+            response = await client.post(self.base_url, data=json.dumps(data))
+            response.raise_for_status()
+            return response.json()
 
-        response = requests.post(self.base_url, data=json.dumps(data))
-        response.raise_for_status()
-        return response.json()
+    def send_msg(self, msg_title, msg_text, template_type=TemplateType.txt):
+        """同步发送消息
+        :msg_title: 主题
+        :msg_text:  正文
+        :return:    发送结果
+        """
+        # 这里使用同步客户端，调用异步方法
+        return asyncio.run(self.send_msg_async(msg_title, msg_text, template_type))
 
 if __name__ == "__main__":
     TOKEN = ''
-    print(PushPlusNotify(TOKEN).send_msg("测试标题", "测试正文", TemplateType.txt))
+    notify = PushPlusNotify(TOKEN)
+
+    print(notify.send_msg("测试标题", "测试正文", TemplateType.txt))
+    async def main():
+        result = await notify.send_msg_async("测试标题异步", "测试正文异步", TemplateType.txt)
+        print(result)
+    
+    asyncio.run(main())
 
