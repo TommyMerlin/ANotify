@@ -160,7 +160,10 @@ pushplus.send_msg("测试标题", msg_json, Npushplus.TemplateType.json)
 pushplus.send_msg("测试标题", "**测试内容**\n- test1\n- [ANotify](https://github.com/TommyMerlin/ANotify)", Npushplus.TemplateType.markdown)
 pushplus.send_msg("测试标题", "测试内容<a href='https://github.com/TommyMerlin/ANotify'>ANotify</a>", Npushplus.TemplateType.html)
 
-pushplus.
+# 异步调用发送消息
+async def main():
+    result = await pushplus.send_msg_async("测试标题异步", "测试正文异步", TemplateType.txt)
+asyncio.run(main())
 ```
 
 ### Server酱
