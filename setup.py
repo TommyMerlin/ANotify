@@ -6,6 +6,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'requests>=2.15.1',
+        'httpx>=0.26.0'
     ],
     author='7ommy',
     author_email='tommymerlin0920@gmail.com',

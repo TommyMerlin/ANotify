@@ -198,8 +198,8 @@ proxy = {
 telegram = Ntelegram.TelegramNotify(TOKEN, CHAT_ID)
 
 # https://core.telegram.org/bots/api#formatting-options
-telegram.send_msg("test message", Ntelegram.ParseMode.TEXT)   # 无代理
-telegram.send_msg("test message", Ntelegram.ParseMode.TEXT, proxy=proxy) # 有代理
+telegram.send_msg("test message", Ntelegram.ParseMode.TEXT)                # 无代理
+telegram.send_msg("test message", Ntelegram.ParseMode.TEXT, proxy=proxy)   # 有代理
 telegram.send_msg("[link](https://www.example.com)", Ntelegram.ParseMode.Markdown)
 telegram.send_msg("<a href='https://www.example.com'>link</a>", Ntelegram.ParseMode.HTML)
 telegram.send_photo("test.png","test")
