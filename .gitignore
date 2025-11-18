@@ -2,3 +2,4 @@
 /dist
 /anotify.egg-info
 build_cmd.txt
+.DS_Store
