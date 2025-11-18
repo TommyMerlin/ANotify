@@ -184,6 +184,15 @@ reminder = Nreminder.ReminderNotify(PUSH_KEY)
 reminder.send_msg("title", "content")
 ```
 
+### 巴法云
+[官网](https://cloud.bemfa.com/docs/src/api_wechat.html)
+```python
+from ANotify import Nbemfa
+TOKEN = ""
+reminder = Nbemfa.BemfaNotify(TOKEN)
+reminder.send_msg("title", "content")
+```
+
 ### Telegram Bot
 [官网](https://core.telegram.org/bots)
 ```python

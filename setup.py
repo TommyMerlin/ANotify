@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='anotify',
-    version='0.2.0',
+    version='0.2.1',
     packages=find_packages(),
     install_requires=[
         'requests>=2.15.1',
