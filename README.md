@@ -189,8 +189,8 @@ reminder.send_msg("title", "content")
 ```python
 from ANotify import Nbemfa
 TOKEN = ""
-reminder = Nbemfa.BemfaNotify(TOKEN)
-reminder.send_msg("title", "content")
+bemfa = Nbemfa.BemfaNotify(TOKEN)
+bemfa.send_msg("title", "content")
 ```
 
 ### Telegram Bot
