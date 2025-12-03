@@ -231,4 +231,23 @@ email_notify = Nemail.EmailNotify(MAIL_HOST, MAIL_USER, MAIL_PASS, SENDER)
 email_notify.send_email("测试标题", "测试正文", attachment_filename=None, receiver='123@example.com')
 ```
 
+### Resend
+[官网](https://resend.com/docs/api-reference/emails/send-email)
+```python
+from ANotify import Nresend
+# 发件地址
+FROM_ADDR = 'from@example.com'
+# 收件地址
+TO_ADDR = 'to@example.com'
+# API Key
+API_KEY = ''
+# 主题
+SUBJECT = 'TEST EMAIL'
+# 邮件正文（html格式）
+HTML = '<h1>This is a test email</h1>'
+
+resend = Nresend.ResendNotify(API_KEY)
+resend.send_email(FROM_ADDR, TO_ADDR, SUBJECT, HTML)
+```
+
 [![Star History Chart](https://api.star-history.com/svg?repos=TommyMerlin/ANotify&type=Date)](https://star-history.com/#TommyMerlin/ANotify&Date)
