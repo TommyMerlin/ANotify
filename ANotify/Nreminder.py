@@ -1,4 +1,5 @@
 from ._http import http_transport
+from ._result import delivery_result
 
 class ReminderNotify:
     def __init__(self, pushkey):
@@ -15,7 +16,7 @@ class ReminderNotify:
 
         response = http_transport.get(url, params=querystring)
 
-        print(response.json())
+        return delivery_result("reminder", response)
 
 
 if __name__ == "__main__":

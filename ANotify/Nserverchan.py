@@ -1,6 +1,7 @@
 import json
 
 from ._http import http_transport
+from ._result import delivery_result
 
 class ServerChanNotify:
     def __init__(self, token):
@@ -20,7 +21,7 @@ class ServerChanNotify:
         }
 
         response = http_transport.post(self.base_url, data=data)
-        return response.json()
+        return delivery_result("serverchan", response)
 
 if __name__ == "__main__":
     TOKEN = ''

@@ -1,6 +1,7 @@
 from enum import Enum
 
 from ._http import http_transport
+from ._result import delivery_result
 
 class MessageType(Enum):
     plaintext = 'text/plain'        # 默认模板，纯文本展
@@ -17,7 +18,7 @@ class NtfyNotify:
             data=msg.encode("utf-8"),
             headers={ "Title": title })
 
-        return response.json()
+        return delivery_result("ntfy", response)
 
 
 if __name__ == "__main__":

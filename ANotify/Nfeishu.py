@@ -3,6 +3,7 @@ from enum import Enum
 import json
 
 from ._http import http_transport
+from ._result import ProviderError, delivery_result
 
 class ReceiverType(Enum):
     OPEN_ID = 'open_id'
@@ -25,11 +26,10 @@ class FeishuNotify:
             'app_secret': appsecret
         }
         resp = http_transport.post(url, params=params)
-        resp_json = resp.json()
+        resp_json = delivery_result("feishu", resp).raw
         if 'tenant_access_token' in resp_json.keys():
             return resp_json['tenant_access_token']
-        else:
-            raise Exception('Please check if appid and appsecret are correct \n' + resp.text)
+        raise ProviderError("feishu", "authentication response did not include tenant_access_token", response=resp_json)
 
     def send_msg(self, receive_id_type: ReceiverType ,receive_id, msg):
         url = 'https://open.feishu.cn/open-apis/im/v1/messages'
@@ -51,7 +51,7 @@ class FeishuNotify:
         }
 
         res = http_transport.post(url, params=params, headers=headers, json=body)
-        return res.json()
+        return delivery_result("feishu", res)
 
     def send_img(self, receive_id_type: ReceiverType ,receive_id, img_path):
         url = 'https://open.feishu.cn/open-apis/im/v1/messages'
@@ -73,7 +73,7 @@ class FeishuNotify:
         }
 
         res = http_transport.post(url, params=params, headers=headers, json=body)
-        return res.json()
+        return delivery_result("feishu", res)
 
     def send_file(self, receive_id_type: ReceiverType ,receive_id, file_path):
         url = 'https://open.feishu.cn/open-apis/im/v1/messages'
@@ -95,7 +95,7 @@ class FeishuNotify:
         }
 
         res = http_transport.post(url, params=params, headers=headers, json=body)
-        return res.json()
+        return delivery_result("feishu", res)
 
     def upload_image(self, file_path):
         url = "https://open.feishu.cn/open-apis/im/v1/images"
@@ -108,7 +108,7 @@ class FeishuNotify:
         }
         with open(file_path, 'rb') as image:
             files = [('image', (file_name, image, 'application/json'))]
-            response = http_transport.post(url, headers=headers, data=payload, files=files).json()
+            response = delivery_result("feishu", http_transport.post(url, headers=headers, data=payload, files=files)).raw
         if response['msg'] == 'success':
             return response['data']['image_key']
 
@@ -126,7 +126,7 @@ class FeishuNotify:
         }
         with open(file_path, 'rb') as file:
             files = [('file', (file_name, file, 'application/json'))]
-            response = http_transport.post(url, headers=headers, data=payload, files=files).json()
+            response = delivery_result("feishu", http_transport.post(url, headers=headers, data=payload, files=files)).raw
         if response['msg'] == 'success':
             return response['data']['file_key']
 
@@ -146,7 +146,7 @@ class FeishuWebhookNotify:
             }
         }
         res = http_transport.post(url, headers=headers, json=body)
-        return res.json()
+        return delivery_result("feishu_webhook", res)
 
 if __name__ == "__main__":
     APPID = ''

@@ -4,6 +4,7 @@ import httpx
 import asyncio
 
 from ._http import DEFAULT_TIMEOUT, http_transport
+from ._result import TransportError, delivery_result
 
 class TemplateType(Enum):
     html = 'html'                   # 默认模板，支持html文本
@@ -18,7 +19,7 @@ class TemplateType(Enum):
 class PushPlusNotify:
     def __init__(self, token):
         self.token = token
-        self.base_url = 'http://www.pushplus.plus/send'
+        self.base_url = 'https://www.pushplus.plus/send'
 
     async def send_msg_async(self, msg_title, msg_text, template_type=TemplateType.txt):
         """异步发送消息
@@ -33,10 +34,13 @@ class PushPlusNotify:
             "template": template_type.value,
             "channel": "wechat"
         }
-        async with httpx.AsyncClient(timeout=DEFAULT_TIMEOUT) as client:
-            response = await client.post(self.base_url, data=json.dumps(data))
-            response.raise_for_status()
-            return response.json()
+        try:
+            async with httpx.AsyncClient(timeout=DEFAULT_TIMEOUT) as client:
+                response = await client.post(self.base_url, data=json.dumps(data))
+                response.raise_for_status()
+                return delivery_result("pushplus", response)
+        except httpx.HTTPError as exc:
+            raise TransportError("pushplus", "HTTP request to PushPlus failed: %s" % exc) from exc
 
     def send_msg(self, msg_title, msg_text, template_type=TemplateType.txt):
         """同步发送消息
@@ -51,7 +55,7 @@ class PushPlusNotify:
             "template": template_type.value,
             "channel": "wechat"
         }
-        return http_transport.post(self.base_url, data=json.dumps(data)).json()
+        return delivery_result("pushplus", http_transport.post(self.base_url, data=json.dumps(data)))
 
 if __name__ == "__main__":
     TOKEN = ''

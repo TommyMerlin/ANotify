@@ -1,4 +1,5 @@
 from ._http import http_transport
+from ._result import delivery_result
 
 class ChuanxiNotify:
     def __init__(self, token):
@@ -11,7 +12,7 @@ class ChuanxiNotify:
             'content': content
         }
         resp = http_transport.get('https://cx.super4.cn/push_msg', params=params)
-        return resp.url
+        return delivery_result("chuanxi", resp)
 
 
 if __name__ == "__main__":

@@ -19,3 +19,19 @@
 #         /:::/    /               /:::/    /               \::/____/                                    \:::\____\
 #         \::/    /                \::/    /                 ~~                                           \::/    /
 #          \/____/                  \/____/                                                                \/____/
+
+from ._result import (
+    AuthenticationError,
+    DeliveryResult,
+    NotificationError,
+    ProviderError,
+    TransportError,
+)
+
+__all__ = (
+    "AuthenticationError",
+    "DeliveryResult",
+    "NotificationError",
+    "ProviderError",
+    "TransportError",
+)

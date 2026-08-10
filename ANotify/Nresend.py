@@ -1,4 +1,5 @@
 from ._http import http_transport
+from ._result import delivery_result
 
 class ResendNotify:
     def __init__(self, api_key):
@@ -19,7 +20,7 @@ class ResendNotify:
 
         response = http_transport.post(url, headers=headers, json=data)
 
-        return response.json()
+        return delivery_result("resend", response)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 from ._http import HttpTransportError, http_transport
+from ._result import delivery_result
 
 class IyuuNotify:
     """用于发送通知消息到IYUU平台的客户端"""
@@ -32,7 +33,7 @@ class IyuuNotify:
             url = f"{self.BASE_URL}{self.token}.send"
             params = {"text": title, "desp": content}
             response = http_transport.get(url, params=params)
-            return response.text
+            return delivery_result("iyuu", response)
         except HttpTransportError as e:
             print(f"发送消息失败: {e}")
             raise

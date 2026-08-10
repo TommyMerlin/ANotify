@@ -1,6 +1,7 @@
 from enum import Enum
 
 from ._http import http_transport
+from ._result import delivery_result
 
 class MessageType(Enum):
     plaintext = 'text/plain'        # 默认模板，纯文本展
@@ -30,7 +31,7 @@ class GotifyNotify:
 
         response = http_transport.post(url, json=payload, headers=headers, params=querystring)
 
-        return response.json()
+        return delivery_result("gotify", response)
 
 
 if __name__ == "__main__":

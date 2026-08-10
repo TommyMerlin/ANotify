@@ -1,6 +1,7 @@
 import json
 
 from ._http import http_transport
+from ._result import delivery_result
 
 class WpushNotify:
     def __init__(self, token):
@@ -34,7 +35,7 @@ class WpushNotify:
 
         response = http_transport.post(url, headers=headers, data=payload)
 
-        return response.text
+        return delivery_result("wpush", response)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 from ._http import http_transport
+from ._result import delivery_result
 
 class XizhiNotify:
     def __init__(self, token):
@@ -15,7 +16,7 @@ class XizhiNotify:
 
         response = http_transport.post(url, json=payload, headers=headers)
 
-        return response.json()
+        return delivery_result("xizhi", response)
 
 
 if __name__ == "__main__":

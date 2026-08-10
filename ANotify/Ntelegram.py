@@ -1,6 +1,7 @@
 from enum import Enum
 
 from ._http import http_transport
+from ._result import delivery_result
 
 # https://core.telegram.org/bots/api#formatting-options
 class ParseMode(Enum):
@@ -24,7 +25,7 @@ class TelegramNotify:
         }
 
         response = http_transport.post(url, data=data, proxies=proxy)
-        return response.text
+        return delivery_result("telegram", response)
 
     def send_photo(self, photo_path, caption=None, proxy=None):
         url = f"https://api.telegram.org/bot{self.token}/sendPhoto"
@@ -38,7 +39,7 @@ class TelegramNotify:
             files = {'photo': photo}
             response = http_transport.post(url, data=data, files=files, proxies=proxy)
 
-        return response.text
+        return delivery_result("telegram", response)
 
     def send_file(self, file_path, caption=None, proxy=None):
         url = f"https://api.telegram.org/bot{self.token}/sendDocument"
@@ -52,7 +53,7 @@ class TelegramNotify:
             files = {'document': file}
             response = http_transport.post(url, data=data, files=files, proxies=proxy)
 
-        return response.text
+        return delivery_result("telegram", response)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 from ._http import http_transport
+from ._result import delivery_result
 
 class BemfaNotify:
     def __init__(self, token):
@@ -16,7 +17,7 @@ class BemfaNotify:
 
         response = http_transport.post(url, json=payload, headers=headers)
 
-        return response.json()
+        return delivery_result("bemfa", response)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 from ._http import http_transport
+from ._result import delivery_result
 
 class AnpushNotify:
     def __init__(self, token):
@@ -18,7 +19,7 @@ class AnpushNotify:
         }
 
         response = http_transport.post(url, headers=headers, data=payload)
-        return response.text
+        return delivery_result("anpush", response)
 
 
 if __name__ == "__main__":

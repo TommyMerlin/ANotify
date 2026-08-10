@@ -6,13 +6,15 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from ._result import TransportError
+
 
 DEFAULT_TIMEOUT = (3.05, 10)
 _RETRYABLE_METHODS = frozenset(("GET", "HEAD", "OPTIONS"))
 _RETRYABLE_STATUS_CODES = (429, 500, 502, 503, 504)
 
 
-class HttpTransportError(requests.RequestException):
+class HttpTransportError(TransportError, requests.RequestException):
     """Raised when a request cannot be completed successfully."""
 
 
@@ -53,7 +55,8 @@ class HttpTransport:
             return response
         except requests.RequestException as exc:
             self._logger.warning("HTTP %s request to %s failed: %s", method.upper(), url, exc)
-            raise HttpTransportError("HTTP %s request to %s failed: %s" % (method.upper(), url, exc)) from exc
+            raise HttpTransportError("http", "HTTP %s request to %s failed: %s" % (method.upper(), url, exc),
+                                     status_code=getattr(getattr(exc, "response", None), "status_code", None)) from exc
 
     def get(self, url, **kwargs):
         return self.request("GET", url, **kwargs)

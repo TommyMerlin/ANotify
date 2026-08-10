@@ -4,6 +4,7 @@ import base64
 import hashlib
 
 from ._http import http_transport
+from ._result import ProviderError, delivery_result
 
 
 class MediaType(Enum):
@@ -28,11 +29,10 @@ class WxNotify:
             'corpsecret': corpsecret
         }
         resp = http_transport.get(url, params=params)
-        resp_json = resp.json()
+        resp_json = delivery_result("wecom", resp).raw
         if 'access_token' in resp_json.keys():
             return resp_json['access_token']
-        else:
-            raise Exception('Please check if corpid and corpsecret are correct \n' + resp.text)
+        raise ProviderError("wecom", "authentication response did not include access_token", response=resp_json)
 
     # 上传临时素材
     def upload_media(self, file_path, media_type):
@@ -41,7 +41,7 @@ class WxNotify:
 
         with open(file_path, 'rb') as file:
             result = http_transport.post(url, files={'file': file})
-        response = json.loads(result.text)
+        response = delivery_result("wecom", result).raw
         return response['media_id']
 
     # https://developer.work.weixin.qq.com/document/path/90236
@@ -61,7 +61,7 @@ class WxNotify:
             "duplicate_check_interval": 1800
         }
         resp = http_transport.post(url, data=json.dumps(payload))
-        return resp.json()
+        return delivery_result("wecom", resp)
 
     # 发送 Markdown 文本消息
     def send_msg_markdown(self, text):
@@ -79,7 +79,7 @@ class WxNotify:
             "duplicate_check_interval": 1800
         }
         resp = http_transport.post(url, data=json.dumps(payload))
-        return resp.json()
+        return delivery_result("wecom", resp)
 
     # 发送图片消息
     def send_img(self, img_path):
@@ -96,7 +96,7 @@ class WxNotify:
             "duplicate_check_interval": 1800
         }
         resp = http_transport.post(url, data=json.dumps(payload))
-        return resp.json()
+        return delivery_result("wecom", resp)
 
     # 发送文件消息
     def send_file(self, file_path):
@@ -113,7 +113,7 @@ class WxNotify:
             "duplicate_check_interval": 1800
         }
         resp = http_transport.post(url, data=json.dumps(payload))
-        return resp.json()
+        return delivery_result("wecom", resp)
 
     # 发送文本卡片
     def send_text_card(self, title, description, link):
@@ -133,7 +133,7 @@ class WxNotify:
             "duplicate_check_interval": 1800
         }
         resp = http_transport.post(url, data=json.dumps(payload))
-        return resp.json()
+        return delivery_result("wecom", resp)
 
     # 发送多项选择型-模板卡片
     def send_template_card_multiple_interaction(self):
@@ -179,7 +179,7 @@ class WxNotify:
             "duplicate_check_interval": 1800
         }
         resp = http_transport.post(url, data=json.dumps(payload))
-        return resp.json()
+        return delivery_result("wecom", resp)
 
 class WxWebhookNotify:
     def __init__(self, webhook_url):
@@ -197,7 +197,7 @@ class WxWebhookNotify:
         }
 
         res = http_transport.post(url, data=json.dumps(playload))
-        return res.json()
+        return delivery_result("wecom_webhook", res)
 
     def send_msg_markdown(self, msg):
         url = self.webhook_url
@@ -211,7 +211,7 @@ class WxWebhookNotify:
         }
 
         res = http_transport.post(url, data=json.dumps(playload))
-        return res.json()
+        return delivery_result("wecom_webhook", res)
 
     def send_img(self, img_path):
         url = self.webhook_url
@@ -225,7 +225,7 @@ class WxWebhookNotify:
         }
 
         res = http_transport.post(url, data=json.dumps(playload))
-        return res.json()
+        return delivery_result("wecom_webhook", res)
     def send_file(self, file_path):
         url = self.webhook_url
         playload = {
@@ -236,7 +236,7 @@ class WxWebhookNotify:
         }
 
         res = http_transport.post(url, data=json.dumps(playload))
-        return res.json()
+        return delivery_result("wecom_webhook", res)
 
     def upload_media(self, file_path):
         key = self.webhook_url.split("key=")[1]
@@ -244,7 +244,7 @@ class WxWebhookNotify:
 
         with open(file_path, 'rb') as file:
             result = http_transport.post(url, files={'file': file})
-        response = json.loads(result.text)
+        response = delivery_result("wecom_webhook", result).raw
         return response['media_id']
 
     def get_img_info(self, img_path):
@@ -263,10 +263,10 @@ if __name__ == "__main__":
     AgentId = ''
 
     wn = WxNotify(corpid=CORPID, corpsecret=CORPSECRET, agentid=AgentId)
-    # print(wn.send_msg("test message"))
+    print(wn.send_msg("test message"))
     # wn.send_msg_markdown("**Hello**\n- test1\n- [ANotify]")
 
-    wn_webhook = WxWebhookNotify("")
+    # wn_webhook = WxWebhookNotify("")
     # wn_webhook.send_file("E:/Desktop/gpt/Cursor_Demo/test.png")
     # wn_webhook.send_msg("Hello")
     # print(wn_webhook.send_msg_markdown("**Hello**\n- test1\n- [ANotify](https://www.baidu.com)"))

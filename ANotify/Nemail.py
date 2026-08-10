@@ -2,6 +2,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+from ._result import NotificationError, successful_delivery
+
 class EmailNotify:
     def __init__(self, mail_host, mail_user, mail_pass, sender):
         self.mail_host = mail_host
@@ -56,9 +58,9 @@ class EmailNotify:
             smtpObj.sendmail(self.sender,receivers,self.message.as_string())
             # 退出
             smtpObj.quit()
-            return True
-        except smtplib.SMTPException as e:
-            return False
+            return successful_delivery("email")
+        except smtplib.SMTPException as exc:
+            raise NotificationError("email", "SMTP delivery failed: %s" % exc) from exc
 
 if __name__ == "__main__":
     # 邮箱服务器地址
