@@ -1,4 +1,4 @@
-import requests
+from ._http import HttpTransportError, http_transport
 
 class IyuuNotify:
     """用于发送通知消息到IYUU平台的客户端"""
@@ -26,15 +26,14 @@ class IyuuNotify:
             返回API响应文本
             
         Raises:
-            requests.RequestException: 当请求失败时抛出
+            HttpTransportError: 当请求失败时抛出
         """
         try:
             url = f"{self.BASE_URL}{self.token}.send"
             params = {"text": title, "desp": content}
-            response = requests.get(url, params=params)
-            response.raise_for_status()
+            response = http_transport.get(url, params=params)
             return response.text
-        except requests.RequestException as e:
+        except HttpTransportError as e:
             print(f"发送消息失败: {e}")
             raise
 

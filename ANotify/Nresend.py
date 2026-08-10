@@ -1,4 +1,4 @@
-import requests
+from ._http import http_transport
 
 class ResendNotify:
     def __init__(self, api_key):
@@ -17,7 +17,7 @@ class ResendNotify:
             "html": html_content,
         }
 
-        response = requests.post(url, headers=headers, json=data)
+        response = http_transport.post(url, headers=headers, json=data)
 
         return response.json()
 

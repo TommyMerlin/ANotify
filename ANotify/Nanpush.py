@@ -1,4 +1,4 @@
-import requests
+from ._http import http_transport
 
 class AnpushNotify:
     def __init__(self, token):
@@ -17,7 +17,7 @@ class AnpushNotify:
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
-        response = requests.post(url, headers=headers, data=payload)
+        response = http_transport.post(url, headers=headers, data=payload)
         return response.text
 
 

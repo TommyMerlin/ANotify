@@ -1,6 +1,7 @@
 import os
-import requests
 import json
+
+from ._http import http_transport
 
 class DingtalkWebhookNotify:
     def __init__(self, webhook_url):
@@ -16,7 +17,7 @@ class DingtalkWebhookNotify:
                 "content": msg
             }
         }
-        res = requests.post(url, data=json.dumps(payload), headers=headers)
+        res = http_transport.post(url, data=json.dumps(payload), headers=headers)
         return res.json()
 
 if __name__ == "__main__":

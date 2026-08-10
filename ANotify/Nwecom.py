@@ -1,8 +1,9 @@
-import requests
 from enum import Enum
 import json
 import base64
 import hashlib
+
+from ._http import http_transport
 
 
 class MediaType(Enum):
@@ -26,8 +27,7 @@ class WxNotify:
             'corpid': corpid,
             'corpsecret': corpsecret
         }
-        resp = requests.get(url, params=params)
-        resp.raise_for_status()
+        resp = http_transport.get(url, params=params)
         resp_json = resp.json()
         if 'access_token' in resp_json.keys():
             return resp_json['access_token']
@@ -39,8 +39,8 @@ class WxNotify:
         url = ('https://qyapi.weixin.qq.com/cgi-bin/media/upload?access_token={}&type={}'
                .format(self.access_token, media_type.value))
 
-        files = {'file': open(file_path, 'rb')}
-        result = requests.post(url, files=files)
+        with open(file_path, 'rb') as file:
+            result = http_transport.post(url, files={'file': file})
         response = json.loads(result.text)
         return response['media_id']
 
@@ -60,8 +60,7 @@ class WxNotify:
             "enable_duplicate_check": 0,
             "duplicate_check_interval": 1800
         }
-        resp = requests.post(url, data=json.dumps(payload))
-        resp.raise_for_status()
+        resp = http_transport.post(url, data=json.dumps(payload))
         return resp.json()
 
     # 发送 Markdown 文本消息
@@ -79,8 +78,7 @@ class WxNotify:
             "enable_duplicate_check": 0,
             "duplicate_check_interval": 1800
         }
-        resp = requests.post(url, data=json.dumps(payload))
-        resp.raise_for_status()
+        resp = http_transport.post(url, data=json.dumps(payload))
         return resp.json()
 
     # 发送图片消息
@@ -97,8 +95,7 @@ class WxNotify:
             "enable_duplicate_check": 0,
             "duplicate_check_interval": 1800
         }
-        resp = requests.post(url, data=json.dumps(payload))
-        resp.raise_for_status()
+        resp = http_transport.post(url, data=json.dumps(payload))
         return resp.json()
 
     # 发送文件消息
@@ -115,8 +112,7 @@ class WxNotify:
             "enable_duplicate_check": 0,
             "duplicate_check_interval": 1800
         }
-        resp = requests.post(url, data=json.dumps(payload))
-        resp.raise_for_status()
+        resp = http_transport.post(url, data=json.dumps(payload))
         return resp.json()
 
     # 发送文本卡片
@@ -136,8 +132,7 @@ class WxNotify:
             "enable_duplicate_check": 0,
             "duplicate_check_interval": 1800
         }
-        resp = requests.post(url, data=json.dumps(payload))
-        resp.raise_for_status()
+        resp = http_transport.post(url, data=json.dumps(payload))
         return resp.json()
 
     # 发送多项选择型-模板卡片
@@ -183,8 +178,7 @@ class WxNotify:
             "enable_duplicate_check": 0,
             "duplicate_check_interval": 1800
         }
-        resp = requests.post(url, data=json.dumps(payload))
-        resp.raise_for_status()
+        resp = http_transport.post(url, data=json.dumps(payload))
         return resp.json()
 
 class WxWebhookNotify:
@@ -202,7 +196,7 @@ class WxWebhookNotify:
             }
         }
 
-        res = requests.post(url, data=json.dumps(playload))
+        res = http_transport.post(url, data=json.dumps(playload))
         return res.json()
 
     def send_msg_markdown(self, msg):
@@ -216,7 +210,7 @@ class WxWebhookNotify:
             }
         }
 
-        res = requests.post(url, data=json.dumps(playload))
+        res = http_transport.post(url, data=json.dumps(playload))
         return res.json()
 
     def send_img(self, img_path):
@@ -230,7 +224,7 @@ class WxWebhookNotify:
             }
         }
 
-        res = requests.post(url, data=json.dumps(playload))
+        res = http_transport.post(url, data=json.dumps(playload))
         return res.json()
     def send_file(self, file_path):
         url = self.webhook_url
@@ -241,15 +235,15 @@ class WxWebhookNotify:
             }
         }
 
-        res = requests.post(url, data=json.dumps(playload))
+        res = http_transport.post(url, data=json.dumps(playload))
         return res.json()
 
     def upload_media(self, file_path):
         key = self.webhook_url.split("key=")[1]
         url = f"https://qyapi.weixin.qq.com/cgi-bin/webhook/upload_media?key={key}&type=file"
 
-        files = {'file': open(file_path, 'rb')}
-        result = requests.post(url, files=files)
+        with open(file_path, 'rb') as file:
+            result = http_transport.post(url, files={'file': file})
         response = json.loads(result.text)
         return response['media_id']
 

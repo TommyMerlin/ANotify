@@ -1,5 +1,6 @@
-import requests
 import json
+
+from ._http import http_transport
 
 class ServerChanNotify:
     def __init__(self, token):
@@ -18,8 +19,7 @@ class ServerChanNotify:
             "desp": msg_text,
         }
 
-        response = requests.post(self.base_url, data=data)
-        response.raise_for_status()
+        response = http_transport.post(self.base_url, data=data)
         return response.json()
 
 if __name__ == "__main__":

@@ -1,8 +1,9 @@
-import requests
 from enum import Enum
 import json
 import httpx
 import asyncio
+
+from ._http import DEFAULT_TIMEOUT, http_transport
 
 class TemplateType(Enum):
     html = 'html'                   # 默认模板，支持html文本
@@ -32,7 +33,7 @@ class PushPlusNotify:
             "template": template_type.value,
             "channel": "wechat"
         }
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=DEFAULT_TIMEOUT) as client:
             response = await client.post(self.base_url, data=json.dumps(data))
             response.raise_for_status()
             return response.json()
@@ -43,8 +44,14 @@ class PushPlusNotify:
         :msg_text:  正文
         :return:    发送结果
         """
-        # 这里使用同步客户端，调用异步方法
-        return asyncio.run(self.send_msg_async(msg_title, msg_text, template_type))
+        data = {
+            "token": self.token,
+            "title": msg_title,
+            "content": msg_text,
+            "template": template_type.value,
+            "channel": "wechat"
+        }
+        return http_transport.post(self.base_url, data=json.dumps(data)).json()
 
 if __name__ == "__main__":
     TOKEN = ''

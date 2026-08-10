@@ -1,4 +1,4 @@
-import requests
+from ._http import http_transport
 
 class ChuanxiNotify:
     def __init__(self, token):
@@ -10,7 +10,7 @@ class ChuanxiNotify:
             'title': title,
             'content': content
         }
-        resp = requests.get('https://cx.super4.cn/push_msg', params=params)
+        resp = http_transport.get('https://cx.super4.cn/push_msg', params=params)
         return resp.url
 
 

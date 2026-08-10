@@ -1,5 +1,6 @@
-import requests
 from enum import Enum
+
+from ._http import http_transport
 
 class MessageType(Enum):
     plaintext = 'text/plain'        # 默认模板，纯文本展
@@ -27,7 +28,7 @@ class GotifyNotify:
         }
         headers = {"content-type": "application/json"}
 
-        response = requests.post(url, json=payload, headers=headers, params=querystring)
+        response = http_transport.post(url, json=payload, headers=headers, params=querystring)
 
         return response.json()
 

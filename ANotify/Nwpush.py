@@ -1,5 +1,6 @@
-import requests
 import json
+
+from ._http import http_transport
 
 class WpushNotify:
     def __init__(self, token):
@@ -31,7 +32,7 @@ class WpushNotify:
             'Content-Type': 'application/json'
         }
 
-        response = requests.request("POST", url, headers=headers, data=payload)
+        response = http_transport.post(url, headers=headers, data=payload)
 
         return response.text
 

@@ -1,5 +1,6 @@
-import requests
 from enum import Enum
+
+from ._http import http_transport
 
 class MessageType(Enum):
     plaintext = 'text/plain'        # 默认模板，纯文本展
@@ -12,7 +13,7 @@ class NtfyNotify:
 
     def send_msg(self, title, msg):
         url = self.server_url.rstrip('/') + "/" + self.topic
-        response = requests.post(url,
+        response = http_transport.post(url,
             data=msg.encode("utf-8"),
             headers={ "Title": title })
 

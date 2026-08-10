@@ -1,4 +1,4 @@
-import requests
+from ._http import http_transport
 
 class BemfaNotify:
     def __init__(self, token):
@@ -14,7 +14,7 @@ class BemfaNotify:
         }
         headers = {"content-type": "application/json"}
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = http_transport.post(url, json=payload, headers=headers)
 
         return response.json()
 

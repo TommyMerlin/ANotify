@@ -1,7 +1,8 @@
 import os
-import requests
 from enum import Enum
 import json
+
+from ._http import http_transport
 
 class ReceiverType(Enum):
     OPEN_ID = 'open_id'
@@ -23,8 +24,7 @@ class FeishuNotify:
             'app_id': appid,
             'app_secret': appsecret
         }
-        resp = requests.post(url, params=params)
-        resp.raise_for_status()
+        resp = http_transport.post(url, params=params)
         resp_json = resp.json()
         if 'tenant_access_token' in resp_json.keys():
             return resp_json['tenant_access_token']
@@ -50,7 +50,7 @@ class FeishuNotify:
             })
         }
 
-        res = requests.post(url, params=params, headers=headers, json=body)
+        res = http_transport.post(url, params=params, headers=headers, json=body)
         return res.json()
 
     def send_img(self, receive_id_type: ReceiverType ,receive_id, img_path):
@@ -72,7 +72,7 @@ class FeishuNotify:
             })
         }
 
-        res = requests.post(url, params=params, headers=headers, json=body)
+        res = http_transport.post(url, params=params, headers=headers, json=body)
         return res.json()
 
     def send_file(self, receive_id_type: ReceiverType ,receive_id, file_path):
@@ -94,7 +94,7 @@ class FeishuNotify:
             })
         }
 
-        res = requests.post(url, params=params, headers=headers, json=body)
+        res = http_transport.post(url, params=params, headers=headers, json=body)
         return res.json()
 
     def upload_image(self, file_path):
@@ -103,14 +103,12 @@ class FeishuNotify:
         file_name = os.path.basename(file_path)
 
         payload = {'image_type': 'message'}
-        files = [
-            ('image', (file_name, open(file_path, 'rb'), 'application/json'))
-        ]
         headers = {
             'Authorization': 'Bearer ' + self.access_token
         }
-
-        response = requests.request("POST", url, headers=headers, data=payload, files=files).json()
+        with open(file_path, 'rb') as image:
+            files = [('image', (file_name, image, 'application/json'))]
+            response = http_transport.post(url, headers=headers, data=payload, files=files).json()
         if response['msg'] == 'success':
             return response['data']['image_key']
 
@@ -123,15 +121,12 @@ class FeishuNotify:
             'file_name': file_name
         }
 
-        files = [
-            ('file', (file_name, open(file_path, 'rb'), 'application/json'))
-        ]
-
         headers = {
             'Authorization': 'Bearer ' + self.access_token
         }
-
-        response = requests.request("POST", url, headers=headers, data=payload, files=files).json()
+        with open(file_path, 'rb') as file:
+            files = [('file', (file_name, file, 'application/json'))]
+            response = http_transport.post(url, headers=headers, data=payload, files=files).json()
         if response['msg'] == 'success':
             return response['data']['file_key']
 
@@ -150,7 +145,7 @@ class FeishuWebhookNotify:
                 "text": msg
             }
         }
-        res = requests.post(url, headers=headers, json=body)
+        res = http_transport.post(url, headers=headers, json=body)
         return res.json()
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-import requests
+from ._http import http_transport
 
 class ReminderNotify:
     def __init__(self, pushkey):
@@ -13,7 +13,7 @@ class ReminderNotify:
             "pushType": "1"
             }
 
-        response = requests.get(url, params=querystring)
+        response = http_transport.get(url, params=querystring)
 
         print(response.json())
 
