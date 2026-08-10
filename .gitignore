@@ -3,3 +3,4 @@
 /anotify.egg-info
 build_cmd.txt
 .DS_Store
+*/__pycache__

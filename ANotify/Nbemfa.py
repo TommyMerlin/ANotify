@@ -20,6 +20,6 @@ class BemfaNotify:
 
 
 if __name__ == "__main__":
-    TOKEN = "e7002e3eaaa24bb0b7765b4b8e0ad935"
+    TOKEN = ""
     bemfa = BemfaNotify(TOKEN)
     print(bemfa.send_msg("title", "content"))
